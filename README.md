@@ -43,13 +43,15 @@ Standard object: **Case**. Custom fields:
 |---|---|---|---|
 | Touchpoint | `Touchpoint__c` | Picklist | Self-checkout, Staffed till, Loyalty app |
 | Store | `Store__c` | Picklist | Store A, Store B, Store C, Store D |
-| Machine | `Machine__c` | Lookup (Machine) | Links each case to one machine record, so counts per machine are reliable |
+| Machine | `Machine__c` | Lookup (Machine) | Links each case to one machine record, so counts per machine are reliable. Machines that have cases can't be deleted, which protects the history. |
 | Payment Method | `Payment_Method__c` | Picklist | Card, Contactless, Cash, Loyalty points |
 | Error Code | `Error_Code__c` | Text | Required for payment failures (R4) |
 
 Record types on Case: **Payment**, **Loyalty**, **Device**.
 
-Standard field changes: add a **Payment Failure** value to **Case Reason** (used by R4).
+Standard field changes:
+- add a **Payment Failure** value to **Case Reason** (used by R4)
+- add an **In store** value to **Case Origin**, because most cases are logged by staff in the store, not by phone, email or web
 
 Custom object: **Machine** (`Machine__c`), one record per checkout machine.
 
@@ -60,6 +62,7 @@ Custom object: **Machine** (`Machine__c`), one record per checkout machine.
 
 Store values come from a Global Value Set, shared by Case and Machine.
 A lookup filter on Case.Machine__c only shows machines from the case's store.
+
 
 ## 5. Design decisions
 
@@ -126,8 +129,8 @@ the case's store (risk 2).
 
 ## 7. Build progress
 
-- [ ] Store global value set and Machine object
-- [ ] Custom Case fields, Machine lookup (with lookup filter) and record types (R1, R2)
+- [x] Store global value set and Machine object
+- [x] Custom Case fields, Machine lookup (with lookup filter) and record types (R1, R2)
 - [ ] Page layouts, Lightning app, list views
 - [ ] Security model: Agent and Supervisor users, roles, Case OWD = Private (R8)
 - [ ] Queues and assignment rules (R3)
