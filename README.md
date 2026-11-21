@@ -63,6 +63,20 @@ Custom object: **Machine** (`Machine__c`), one record per checkout machine.
 Store values come from a Global Value Set, shared by Case and Machine.
 A lookup filter on Case.Machine__c only shows machines from the case's store.
 
+#### Built in Salesforce
+
+**Machine object**
+
+![Machine custom object details](screenshots/02-machine-object.png)
+
+**Custom fields on Case**
+
+![Case fields: Touchpoint, Store, Machine, Payment Method, Error Code](screenshots/04-case-custom-fields.png)
+
+**Record types:** staff choose the case type before the form opens, with a description for each.
+
+![Record type picker: Payment, Device, Loyalty](screenshots/07-case-record-types.png)
+
 
 ## 5. Design decisions
 
@@ -121,6 +135,20 @@ but rejected it because Store would be empty whenever no machine is linked.
 Decision: a **Global Value Set** defines the store list once for both
 objects (risk 1), and a **lookup filter** on Case only shows machines from
 the case's store (risk 2).
+
+**Evidence**
+
+One store list, used by both objects (risk 1):
+
+![Store global value set used by Case and Machine](screenshots/03-store-shared-by-case-and-machine.png)
+
+The lookup filter on Case.Machine (risk 2):
+
+![Lookup filter: Machine Store equals Case Store](screenshots/05-machine-lookup-filter.png)
+
+Test: a Store B case can't select SCO-01, a Store A machine. The wrong machine isn't offered at all.
+
+![Searching SCO-01 on a Store B case finds no machines](screenshots/06-lookup-filter-blocks-wrong-store.png)
 
 ## 6. Out of scope
 
