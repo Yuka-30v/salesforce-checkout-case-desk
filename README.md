@@ -35,7 +35,7 @@ Today the workaround is:
 | R7 | A dashboard shows open cases by type, average case age, cases by store and cases by machine | Must |
 | R8 | Agents see only their own cases; Supervisors see the whole team's | Must |
 
-## 4. Planned data model
+## 4. Data model
 
 Standard object: **Case**. Custom fields:
 
@@ -79,7 +79,14 @@ A lookup filter on Case.Machine__c only shows machines from the case's store.
 
 - Each record type has its own page layout. Fields that do not apply are removed (Loyalty has no Payment Method or Error Code, Device has no Payment Method). Case Record Type is shown on every layout so agents can correct a misclassified case.
 - Web Email is always on the layout in Salesforce, so it sits in a "Reported by Email" section for future Email-to-Case.
-  
+
+  Page layouts by record type:
+
+| Payment | Loyalty | Device |
+|---|---|---|
+| ![Payment case layout](screenshots/08-layouts-by-record-type-payment.png) | ![Loyalty case layout](screenshots/08-layouts-by-record-type-loyalty.png) | ![Device case layout](screenshots/08-layouts-by-record-type-device.png) |
+
+Payment shows both Payment Method and Error Code. Loyalty shows neither, because a scan failure has no payment or terminal error. Device shows Error Code but not Payment Method, because a machine fault can raise an error code before any payment is made.
 
 ## 5. Design decisions
 
@@ -164,7 +171,12 @@ Three list views, prefixed with "Desk -" so they don't clash with the standard S
 "Open" means any status that is not closed, so Escalated cases stay visible. Touchpoint is shown next to Machine, because Machine is only filled for Self-checkout cases. Staffed till cases have no machine.
 
 **Known limitation:** in Lightning, a column sort is saved per user. Oldest-first can't be set as the default for everyone, so each user clicks Date/Time Opened once.
+The app, with a Payment case open (Touchpoint, Store, Machine, Payment Method and Error Code on the layout):
+
 ![Checkout Case Desk app](screenshots/09-checkout-case-desk-app.png)
+
+Desk - All Open Cases, oldest first. The Escalated case is included, the Closed test case is not, and the Staffed till case has no machine:
+
 ![Desk - All Open Cases list view](screenshots/10-case-list-views.png)
 
 
@@ -177,13 +189,13 @@ Three list views, prefixed with "Desk -" so they don't clash with the standard S
 
 - [x] Store global value set and Machine object
 - [x] Custom Case fields, Machine lookup (with lookup filter) and record types (R1, R2)
-- [ ] Page layouts, Lightning app, list views
+- [x] Page layouts, Lightning app, list views
 - [ ] Security model: Agent and Supervisor users, roles, Case OWD = Private (R8)
 - [ ] Queues and assignment rules (R3)
-- [ ] Validation rules (R4)
+- [ ] Validation rules (R4, and a Self-checkout case must have a Machine)
 - [ ] Escalation flow (R5)
 - [ ] Email-to-Case (R6)
-- [ ] Reports and dashboard (R7)
+- [ ] Reports and dashboard (R7), plus a custom Home page to replace the default sales Home
 - [ ] Sample data import and UAT
 - [ ] Dynamics vs Salesforce comparison
 
