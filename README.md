@@ -77,6 +77,9 @@ A lookup filter on Case.Machine__c only shows machines from the case's store.
 
 ![Record type picker: Payment, Device, Loyalty](screenshots/07-case-record-types.png)
 
+- Each record type has its own page layout. Fields that do not apply are removed (Loyalty has no Payment Method or Error Code, Device has no Payment Method). Case Record Type is shown on every layout so agents can correct a misclassified case.
+- Web Email is always on the layout in Salesforce, so it sits in a "Reported by Email" section for future Email-to-Case.
+  
 
 ## 5. Design decisions
 
@@ -149,6 +152,21 @@ The lookup filter on Case.Machine (risk 2):
 Test: a Store B case can't select SCO-01, a Store A machine. The wrong machine isn't offered at all.
 
 ![Searching SCO-01 on a Store B case finds no machines](screenshots/06-lookup-filter-blocks-wrong-store.png)
+
+### Lightning app and list views
+The Checkout Case Desk app uses Standard navigation (Home, Cases, Machines, Reports, Dashboards). Console navigation suits agents who work many cases in tabs at once. This desk is small, so Standard keeps it simple.
+
+Three list views, prefixed with "Desk -" so they don't clash with the standard Salesforce views of the same name:
+- **Desk - My Open Cases**: an agent's own open cases
+- **Desk - All Open Cases**: every open case, with Case Owner, for the supervisor
+- **Desk - High Priority Open**: open cases with High priority
+
+"Open" means any status that is not closed, so Escalated cases stay visible. Touchpoint is shown next to Machine, because Machine is only filled for Self-checkout cases. Staffed till cases have no machine.
+
+**Known limitation:** in Lightning, a column sort is saved per user. Oldest-first can't be set as the default for everyone, so each user clicks Date/Time Opened once.
+![Checkout Case Desk app](screenshots/09-checkout-case-desk-app.png)
+![Desk - All Open Cases list view](screenshots/10-case-list-views.png)
+
 
 ## 6. Out of scope
 
