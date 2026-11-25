@@ -235,7 +235,7 @@ The same list view shows 1 case to the agent and 2 to the supervisor. A list vie
 - [x] Store global value set and Machine object
 - [x] Custom Case fields, Machine lookup (with lookup filter) and record types (R1, R2)
 - [x] Page layouts, Lightning app, list views
-- [ ] Security model: Agent and Supervisor users, roles, Case OWD = Private (R8)
+- [x] Security model: Agent and Supervisor users, roles, Case OWD = Private (R8)
 - [ ] Queues and assignment rules (R3)
 - [ ] Validation rules (R4, and a Self-checkout case must have a Machine)
 - [ ] Escalation flow (R5)
