@@ -179,6 +179,51 @@ Desk - All Open Cases, oldest first. The Escalated case is included, the Closed 
 
 ![Desk - All Open Cases list view](screenshots/10-case-list-views.png)
 
+### Security model (R8)
+Profiles control what users see, permission sets control what they can do.
+
+| Part | Setting |
+|---|---|
+| Profile: Checkout Desk User | App, tabs, record types (default Payment), page layouts. No Case permissions |
+| Permission set: Desk Agent | Case Read, Create, Edit. Machine Read only |
+| Permission set: Desk Supervisor | Case Read, Create, Edit. Machine Read, Create, Edit |
+| Case OWD | Private |
+| Machine OWD | Public Read Only |
+| Roles | SVP, Customer Service & Support > Desk Supervisor > Desk Agent |
+
+Decisions:
+- Nobody except the admin can delete a case, so the history is kept.
+- Only supervisors maintain the machine list. If agents could add machines, the "SCO-1 / SCO 1" problem would come back.
+- No one has View All or Modify All on Case. What a supervisor sees comes from the role hierarchy, so R8 can't be bypassed by a permission.
+- Desk Supervisor sits under SVP, Customer Service & Support, next to the other support teams.
+
+Role hierarchy:
+
+![Role hierarchy](screenshots/11-role-hierarchy.png)
+
+Sharing settings. Case is Private and Machine is Public Read Only. Checkout Desk User is not in the sharing overrides list, so agents and supervisors can't bypass Private sharing:
+
+| Case | Machine |
+|---|---|
+| ![Case sharing setting](screenshots/12-sharing-settings-case.png) | ![Machine sharing setting](screenshots/12-sharing-settings-machine.png) |
+
+Tested with Login As:
+
+| Test | Expected | Result |
+|---|---|---|
+| Agent opens Desk - All Open Cases | Only the agent's own case | Pass |
+| Agent opens a machine | No Edit button | Pass |
+| Agent opens a case | No Delete | Pass |
+| Supervisor opens Desk - All Open Cases | Own case and the agent's case | Pass |
+| Agent after the supervisor creates a case | Still one case, the supervisor's is hidden | Pass |
+| Supervisor opens a machine | Can edit | Pass |
+
+The same list view shows 1 case to the agent and 2 to the supervisor. A list view decides how cases are shown, sharing decides which cases each user can see.
+
+| Agent | Supervisor |
+|---|---|
+| ![Agent view](screenshots/13-agent-view.png) | ![Supervisor view](screenshots/14-supervisor-view.png) |
+
 
 ## 6. Out of scope
 
